@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CHAIN="${CHAIN:-ropsten}"
+
 # First init
 if [ ! -f password.txt ]; then
   choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
@@ -12,12 +14,11 @@ if [ ! -f password.txt ]; then
       choose '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     done
     } | sort -R | awk '{printf "%s",$1}')" > password.txt
-  parity account new --password password.txt 2>&1 | awk '{print $4}' > address.txt 
+  parity --chain=$CHAIN account new --password password.txt 2>&1 > address.txt 
 fi
 
 ADDRESS="$(cat address.txt)"
-CHAIN="${CHAIN:-ropsten}"
-echo -e "Start Parity with:\n\tAddress 0x${ADDRESS}\n\tChain: ${CHAIN}"
+echo -e "Start with:\n\taddress: 0x${ADDRESS}\n\tchain: ${CHAIN}"
 
 exec parity --warp \
             --no-ipc \
