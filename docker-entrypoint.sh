@@ -11,11 +11,11 @@ if [ ! -f password.txt ]; then
     do
       choose '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     done
-    } | sort -R | awk '{printf "%s",$1}')" > /root/.parity/keys/password.txt
-  parity account new --password password.txt 2>&1 | awk '{print $4}' > /root/.parity/keys/address.txt
+    } | sort -R | awk '{printf "%s",$1}')" > password.txt
+  parity account new --password password.txt 2>&1 | awk '{print $4}' > address.txt 
 fi
 
-ADDRESS="$(cat /root/.parity/keys/address.txt)"
+ADDRESS="$(cat address.txt)"
 CHAIN="${CHAIN:-ropsten}"
 echo -e "Start with:\n\taddress: 0x${ADDRESS}\n\tchain: ${CHAIN}"
 
@@ -26,5 +26,5 @@ exec parity --warp  \
             --jsonrpc-interface '0.0.0.0' \
             --jsonrpc-hosts='all' \
             --unlock 0x$ADDRESS    \
-            --password /root/.parity/keys/password.txt \
+            --password password.txt \
             --chain=$CHAIN $@
