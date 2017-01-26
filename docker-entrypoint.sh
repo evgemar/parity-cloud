@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # First init
-if [ ! -f /root/.parity/keys/password.txt ]; then
+if [ ! -f password.txt ]; then
   choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
   echo "$({ choose '!@#$%^\&'
     choose '0123456789'
@@ -12,10 +12,7 @@ if [ ! -f /root/.parity/keys/password.txt ]; then
       choose '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     done
     } | sort -R | awk '{printf "%s",$1}')" > /root/.parity/keys/password.txt
-  ln -s /root/.parity/keys/password.txt
-  parity account new --password password.txt 2>&1 | awk '{print $4}' > /root/.parity/keys/address.txt
-else
-  ln -s /root/.parity/keys/password.txt
+  parity account new --password /root/.parity/keys/password.txt 2>&1 | awk '{print $4}' > /root/.parity/keys/address.txt
 fi
 
 ADDRESS="$(cat /root/.parity/keys/address.txt)"
@@ -29,5 +26,5 @@ exec parity --warp  \
             --jsonrpc-interface '0.0.0.0' \
             --jsonrpc-hosts='all' \
             --unlock 0x$ADDRESS    \
-            --password password.txt \
+            --password /root/.parity/keys/password.txt \
             --chain=$CHAIN $@
