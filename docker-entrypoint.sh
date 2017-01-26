@@ -17,13 +17,14 @@ fi
 
 ADDRESS="$(cat address.txt)"
 CHAIN="${CHAIN:-ropsten}"
-echo -e "Start Parity with:\n\tAddress 0x${ADDRESS}\n\tChain: ${CHAIN}"
+echo -e "Start with:\n\taddress: 0x${ADDRESS}\n\tchain: ${CHAIN}"
 
-exec parity --warp \
-            --no-ipc \
+exec parity --warp  \
+            --no-ui  \
+            --no-ipc  \
             --no-dapps \
             --jsonrpc-interface '0.0.0.0' \
             --jsonrpc-hosts='all' \
-            --unlock $ADDRESS \
+            --unlock 0x$ADDRESS    \
             --password password.txt \
             --chain=$CHAIN $@
