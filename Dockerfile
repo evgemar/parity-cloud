@@ -1,8 +1,8 @@
-FROM debian:jessie 
+FROM armhf/debian:jessie
 MAINTAINER Alexander Krupenkin <mail@akru.me>
 LABEL Description="Cloud Ethereum node" Vendor="Airalab" Version="1.0"
 
-ADD http://d1h4xl4cr1h0mo.cloudfront.net/v1.6.6/x86_64-unknown-linux-gnu/parity_1.6.6_amd64.deb /tmp/parity.deb
+ADD http://d1h4xl4cr1h0mo.cloudfront.net/v1.6.6/armv7-unknown-linux-gnueabihf/parity_1.6.6_armhf.deb /tmp/parity.deb
 RUN apt-get update && apt-get install -y libssl1.0.0
 RUN dpkg -x /tmp/parity.deb /tmp/parity \
     && cp /tmp/parity/usr/bin/parity /usr/local/bin/ \
