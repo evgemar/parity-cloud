@@ -27,4 +27,5 @@ exec parity --warp \
             --jsonrpc-hosts='all' \
             --unlock $ADDRESS \
             --password password.txt \
+	    --pruning archive \
             --chain=$CHAIN $@
